@@ -3,6 +3,6 @@ namespace BTApplication
 {
 	public interface IMessageHandler
 	{
-		void HandleMessage(Models.Message message);
+		void OnMessage(Models.Message message);
 	}
 }
