@@ -23,6 +23,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\Message.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IBluetoothManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IMessageHandler.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IConnectionHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Models\" />
