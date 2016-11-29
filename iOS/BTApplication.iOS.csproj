@@ -82,6 +82,7 @@
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
     <MtouchTlsProvider>Default</MtouchTlsProvider>
     <PlatformTarget>x86</PlatformTarget>
+    <CodesignProvision>e0ab8c66-9fe1-4e0d-8a58-cf5b93ff0d4c</CodesignProvision>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -123,6 +124,7 @@
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
+    <Compile Include="BluetoothManager.cs" />
   </ItemGroup>
   <Import Project="..\BTApplication\BTApplication.projitems" Label="Shared" Condition="Exists('..\BTApplication\BTApplication.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
