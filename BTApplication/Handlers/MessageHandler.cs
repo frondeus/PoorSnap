@@ -11,7 +11,6 @@ namespace BTApplication.Droid.Core.Handlers
     {
         public void OnMessage(Models.Message message)
         {
-            throw new NotImplementedException();
         }
     }
 }
