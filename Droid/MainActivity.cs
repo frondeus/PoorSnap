@@ -7,6 +7,10 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
+using BTApplication.Droid.Logic;
+using static BTApplication.Droid.Logic.BluetoothManager;
+using Android.Bluetooth;
+using BTApplication.Droid.Logic.Activities;
 
 namespace BTApplication.Droid
 {
@@ -23,6 +27,12 @@ namespace BTApplication.Droid
 			global::Xamarin.Forms.Forms.Init(this, bundle);
 
 			LoadApplication(new App());
+
+            var receiver = new DiscoveredDeviceReceiver();
+            RegisterReceiver(receiver, new IntentFilter(BluetoothDevice.ActionFound));
+
+            var bluetoothManager = new Logic.BluetoothManager();
+            bluetoothManager.Scan();
 		}
 	}
 }
