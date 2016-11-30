@@ -112,6 +112,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
+    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -125,6 +126,7 @@
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <Compile Include="BluetoothManager.cs" />
+    <Compile Include="Models\iOsUser.cs" />
   </ItemGroup>
   <Import Project="..\BTApplication\BTApplication.projitems" Label="Shared" Condition="Exists('..\BTApplication\BTApplication.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
