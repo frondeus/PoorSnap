@@ -33,6 +33,7 @@ namespace BTApplication.Droid.Logic
         public List<User> Scan()
         {
             _bluetoothAdapter.StartDiscovery();
+            //TODO: zamiast while dodaæ timer - i po skoñczeniu wywo³aæ odpowiedni¹ metodê z ConnectionHandlera u¿ywaj¹c listy u¿ytkowników z receivera
             while (_bluetoothAdapter.IsDiscovering)
             {
             }

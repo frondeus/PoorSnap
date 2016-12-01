@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Android.Bluetooth;
 using Android.Content;
 
@@ -23,7 +24,7 @@ namespace BTApplication.Droid.Logic.Receivers
 
         public List<BluetoothDevice> GetFoundDevices()
         {
-            return _foundDevices;
+            return _foundDevices.Distinct().ToList();
         }
 
         public void FlushList()
