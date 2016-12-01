@@ -1,4 +1,6 @@
-﻿using Xamarin.Forms;
+﻿using BTApplication.Droid.Core.Handlers;
+using BTApplication.Handlers;
+using Xamarin.Forms;
 
 namespace BTApplication
 {
@@ -6,6 +8,8 @@ namespace BTApplication
 	{
 	    public App(IBluetoothManager bluetoothManager = null)
 		{
+            bluetoothManager.MessageHandler = new MessageHandler();
+            bluetoothManager.ConnectionHandler = new ConnectionHandler();
 		    MainPage = new BTApplicationPage(bluetoothManager);
 		}
 

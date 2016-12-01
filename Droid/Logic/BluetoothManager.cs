@@ -11,6 +11,8 @@ namespace BTApplication.Droid.Logic
     {
         private readonly BluetoothAdapter _bluetoothAdapter;
         private readonly DiscoveredDeviceReceiver _receiver;
+        public IMessageHandler MessageHandler { get; set; }
+        public IConnectionHandler ConnectionHandler { get; set; }
 
         public BluetoothManager(DiscoveredDeviceReceiver receiver)
         {

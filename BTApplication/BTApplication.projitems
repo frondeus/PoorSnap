@@ -19,6 +19,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)BTApplicationPage.xaml.cs">
       <DependentUpon>BTApplicationPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Handlers\ConnectionHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Handlers\MessageHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\User.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Message.cs" />
