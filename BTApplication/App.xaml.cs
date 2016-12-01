@@ -4,11 +4,9 @@ namespace BTApplication
 {
 	public partial class App : Application
 	{
-		public App()
+	    public App(IBluetoothManager bluetoothManager = null)
 		{
-			InitializeComponent();
-
-			MainPage = new BTApplicationPage();
+		    MainPage = new BTApplicationPage(bluetoothManager);
 		}
 
 		protected override void OnStart()
