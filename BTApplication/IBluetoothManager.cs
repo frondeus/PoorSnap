@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+
 namespace BTApplication
 {
 	public interface IBluetoothManager
@@ -7,7 +9,7 @@ namespace BTApplication
 		// IConnectionHandler ConnectionHandler { get; set; }
 
 		void SendMessage(Models.Message message);
-		void Scan();
+		List<Models.User> Scan();
 		void Connect(Models.User user);
 		void Disconnect();
 	}
