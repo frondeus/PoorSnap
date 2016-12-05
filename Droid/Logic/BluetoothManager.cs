@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Threading.Tasks;
 using BTApplication.Models;
 using Android.Bluetooth;
 using BTApplication.Droid.Logic.Receivers;
+using BTApplication.Droid.Models;
+using Java.Util;
 
 namespace BTApplication.Droid.Logic
 {
@@ -18,11 +20,13 @@ namespace BTApplication.Droid.Logic
         {
             _bluetoothAdapter = BluetoothAdapter.DefaultAdapter;
             _receiver = receiver;
+
+            ListenAsServerTask();
         }
 
         public void Connect(User user)
         {
-            throw new NotImplementedException();
+
         }
 
         public void Disconnect()
@@ -30,28 +34,52 @@ namespace BTApplication.Droid.Logic
             throw new NotImplementedException();
         }
 
-        public List<User> Scan()
+        public async void Scan()
         {
-            _bluetoothAdapter.StartDiscovery();
-            //TODO: zamiast while dodaæ timer - i po skoñczeniu wywo³aæ odpowiedni¹ metodê z ConnectionHandlera u¿ywaj¹c listy u¿ytkowników z receivera
-            while (_bluetoothAdapter.IsDiscovering)
-            {
-            }
-
-            var result = _receiver.GetFoundDevices();
-            var users = result.Select(user => new User()
-            {
-                Name = user.Name
-            }).ToList();
-
-            _receiver.FlushList();
-
-            return users;
+            var foundDevices = await PerformScanAsync();
+            ConnectionHandler.OnAvailableConnections(foundDevices);
         }
 
         public void SendMessage(Message message)
         {
             throw new NotImplementedException();
+        }
+
+
+
+        private Task<List<AndroidUser>> PerformScanAsync()
+        {
+            return Task.Factory.StartNew(PerformScan);
+        }
+
+        private List<AndroidUser> PerformScan()
+        {
+            _bluetoothAdapter.StartDiscovery();
+
+            while (_bluetoothAdapter.IsDiscovering) { }
+
+            var foundDevices = _receiver.GetFoundDevices();
+            _receiver.FlushList();
+            return foundDevices;
+        }
+
+
+
+        private Task ListenAsServerTask()
+        {
+            return Task.Factory.StartNew(ListenAsServer);
+        }
+
+        private void ListenAsServer()
+        {
+            var socket = _bluetoothAdapter.ListenUsingRfcommWithServiceRecord("serverConnection", UUID.FromString(_bluetoothAdapter.Name));
+            var connectSocket = socket.Accept();
+
+            if (connectSocket == null || !connectSocket.IsConnected) return;
+
+            ConnectionHandler.OnConnected(new AndroidUser() {BluetoothDevice = connectSocket.RemoteDevice, Name = connectSocket.RemoteDevice.Name});
+            connectSocket.Dispose();
+            socket.Dispose();
         }
     }
 }

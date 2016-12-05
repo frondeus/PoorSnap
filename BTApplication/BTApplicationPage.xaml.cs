@@ -44,15 +44,8 @@ namespace BTApplication
 
         private void Button_Clicked(object sender, EventArgs e)
         {
-            _display.Text = Empty;
-            var results = _bluetoothManager.Scan();
-            if (results.Count == 0)
-                _display.Text = "Nie znaleziono urządzeń lub BT jest wyłączony";
-            else
-            foreach(var result in results)
-            {
-                _display.Text += result.Name + "\n";
-            }
+            _bluetoothManager.Scan();
+            _display.Text = "Skanowanie w poszukiwaniu urządzeń...";
         }
     }
 }

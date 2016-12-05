@@ -9,7 +9,7 @@ namespace BTApplication
 		IConnectionHandler ConnectionHandler { get; set; }
 
 		void SendMessage(Models.Message message);
-		List<Models.User> Scan();
+		void Scan();
 		void Connect(Models.User user);
 		void Disconnect();
 	}

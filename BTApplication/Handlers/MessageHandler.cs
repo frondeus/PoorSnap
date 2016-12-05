@@ -1,12 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using BTApplication.Models;
 using Xamarin.Forms;
 
-namespace BTApplication.Droid.Core.Handlers
+namespace BTApplication.Handlers
 {
     public class MessageHandler : IMessageHandler
     {

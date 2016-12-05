@@ -1,5 +1,4 @@
-﻿using BTApplication.Droid.Core.Handlers;
-using BTApplication.Handlers;
+﻿using BTApplication.Handlers;
 using Xamarin.Forms;
 
 namespace BTApplication

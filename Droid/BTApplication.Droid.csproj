@@ -86,6 +86,7 @@
     <Compile Include="Logic\BluetoothManager.cs" />
     <Compile Include="Logic\Receivers\DiscoveredDeviceReceiver.cs" />
     <Compile Include="MainActivity.cs" />
+    <Compile Include="Models\AndroidUser.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
