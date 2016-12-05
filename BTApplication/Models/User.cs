@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Android.Bluetooth;
+using System;
 
 namespace BTApplication.Models
 {
@@ -6,5 +7,6 @@ namespace BTApplication.Models
 	{
 		public Guid Guid { get; set; }
 		public string Name { get; set; }
+        public BluetoothDevice btdevice { get; set; }
 	}
 }
