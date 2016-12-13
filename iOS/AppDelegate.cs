@@ -16,10 +16,9 @@ namespace BTApplication.iOS
 		{
 			global::Xamarin.Forms.Forms.Init();
 
-			LoadApplication(new App());
-
 			bluetoothManager = new BluetoothManager();
-			bluetoothManager.Scan();
+
+			LoadApplication(new App(bluetoothManager));
 
 			return base.FinishedLaunching(app, options);
 		}

@@ -9,6 +9,7 @@ namespace BTApplication
 		IConnectionHandler ConnectionHandler { get; set; }
 
 		void SendMessage(Models.Message message);
+		//TODO: Zmienić na async Task<void>
 		void Scan();
 		void Connect(Models.User user);
 		void Disconnect();
