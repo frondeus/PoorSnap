@@ -8,8 +8,10 @@ namespace BTApplication
 	{
 	    private readonly IBluetoothManager _bluetoothManager;
 	    private readonly Label _display;
+		public StackLayout userslayout;
+        public int count  =0; 
 
-		public BTApplicationPage(IBluetoothManager bluetoothManager)
+        public BTApplicationPage(IBluetoothManager bluetoothManager)
 		{
 		    _bluetoothManager = bluetoothManager;
 		    var button = new Button()
@@ -24,6 +26,11 @@ namespace BTApplication
 		        FontSize = 18,
 		    };
 
+            userslayout = new StackLayout()
+            {
+
+            };
+      
             Content = new StackLayout
 		    {
                 Children =
@@ -35,7 +42,8 @@ namespace BTApplication
                         FontSize = 20
                     },
                     button,
-                    _display
+                    _display,
+                    userslayout
                 }
 		    };
 

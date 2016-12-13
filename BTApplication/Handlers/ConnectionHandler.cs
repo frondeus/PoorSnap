@@ -2,18 +2,21 @@
 using System.Collections.Generic;
 using System.Text;
 using BTApplication.Models;
+using Xamarin.Forms;
 
 namespace BTApplication.Handlers
 {
 	class ConnectionHandler : IConnectionHandler
 	{
+        public BTApplicationPage Page { get; set; }
 		public void OnAvailableConnections(IEnumerable<User> users)
 		{
+
 			//throw new NotImplementedException();
 			Console.WriteLine("Found connections:");
 			foreach (var user in users)
 			{
-				Console.WriteLine(string.Format("* {0}", user.Name));
+                Page.userslayout.Children.Add(new Button { Text = string.Format("* {0}", user.Name) }); 
 			}
 		}
 
