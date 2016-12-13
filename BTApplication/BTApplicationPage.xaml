@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-		xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-		xmlns:local="clr-namespace:BTApplication"
-		x:Class="BTApplication.BTApplicationPage">
-	<Label Text="Test widoków"
-			VerticalOptions="Center"
-			HorizontalOptions="Center" />
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:local="clr-namespace:BTApplication" x:Class="BTApplication.BTApplicationPage">
+	<ContentPage.Padding>
+		<OnPlatform x:TypeArguments="Thickness" iOS="10, 20, 10, 10" WinPhone="20,20,20,20" />
+	</ContentPage.Padding>
+	<StackLayout>
+		<Label Text="Bluetooth Test">
+		</Label>
+		<Button Text="Skanuj w poszukiwaniu urządzeń" Clicked="Scan_Clicked">
+		</Button>
+		<Label x:Name="Display" Text="Czekanie na wyniki skanowania">
+		</Label>
+		<StackLayout x:Name="UsersLayout">
+		</StackLayout>
+	</StackLayout>
 </ContentPage>

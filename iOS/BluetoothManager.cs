@@ -36,7 +36,6 @@ namespace BTApplication.iOS
 	{
 		private CentralManager del;
 		private CBCentralManager mgr;
-		private List<User> discoveredUsers = new List<User>();
 
 		public IMessageHandler MessageHandler { get; set; }
 		public IConnectionHandler ConnectionHandler { get; set; }
@@ -77,8 +76,8 @@ namespace BTApplication.iOS
 
 		public void Connect(User user)
 		{
-			//iOsUser usr = user as iOsUser;
-			//mgr.ConnectPeripheral(usr.Peripheral);
+			iOsUser usr = user as iOsUser;
+			mgr.ConnectPeripheral(usr.Peripheral);
 		}
 
 		public void Disconnect()

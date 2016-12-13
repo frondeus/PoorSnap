@@ -3,20 +3,20 @@ using System.Collections.Generic;
 using System.Text;
 using BTApplication.Models;
 using Xamarin.Forms;
+using System.Linq;
 
 namespace BTApplication.Handlers
 {
 	class ConnectionHandler : IConnectionHandler
 	{
-        public BTApplicationPage Page { get; set; }
+		public BTApplicationPage Page { get; set; }
 		public void OnAvailableConnections(IEnumerable<User> users)
 		{
-
-			//throw new NotImplementedException();
-			Console.WriteLine("Found connections:");
+			Page.usersLayout.Children.Clear();
+			Page.display.Text = users.Count() > 0 ? "Znaleziono: " : "Nie znaleziono urządzeń...";
 			foreach (var user in users)
 			{
-                Page.userslayout.Children.Add(new Button { Text = string.Format("* {0}", user.Name) }); 
+				Page.AddButton(user);
 			}
 		}
 

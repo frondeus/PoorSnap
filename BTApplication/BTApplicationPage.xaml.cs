@@ -1,4 +1,5 @@
 using System;
+using BTApplication.Models;
 using Xamarin.Forms;
 using static System.String;
 
@@ -6,54 +7,36 @@ namespace BTApplication
 {
 	public partial class BTApplicationPage : ContentPage
 	{
-	    private readonly IBluetoothManager _bluetoothManager;
-	    private readonly Label _display;
-		public StackLayout userslayout;
-        public int count  =0; 
+		private readonly IBluetoothManager _bluetoothManager;
 
-        public BTApplicationPage(IBluetoothManager bluetoothManager)
+		public StackLayout usersLayout;
+		public Label display;
+
+		public BTApplicationPage(IBluetoothManager bluetoothManager)
 		{
-		    _bluetoothManager = bluetoothManager;
-		    var button = new Button()
-		    {
-		        Text = "Skanuj w poszukiwaniu urządzeń"
-		    };
+			_bluetoothManager = bluetoothManager;
+			InitializeComponent();
 
-		    _display = new Label()
-		    {
-		        Text = "Czekanie na wyniki skanowania",
-		        TextColor = Color.Maroon,
-		        FontSize = 18,
-		    };
+			display = this.FindByName<Label>("Display");
+			usersLayout = this.FindByName<StackLayout>("UsersLayout");
 
-            userslayout = new StackLayout()
-            {
-
-            };
-      
-            Content = new StackLayout
-		    {
-                Children =
-                {
-                    new Label
-                    {
-                        Text = "Xamarin - demo wyszukiwania urządzeń w zasięgu",
-                        TextColor = Color.Green,
-                        FontSize = 20
-                    },
-                    button,
-                    _display,
-                    userslayout
-                }
-		    };
-
-            button.Clicked += Button_Clicked;
 		}
 
-        private void Button_Clicked(object sender, EventArgs e)
-        {
-            _bluetoothManager.Scan();
-            _display.Text = "Skanowanie w poszukiwaniu urządzeń...";
-        }
-    }
+		public void AddButton(User user)
+		{
+			var button = new Button { Text = user.Name };
+			button.Clicked += (object sender, EventArgs e) =>
+			{
+				_bluetoothManager.Connect(user);
+			};
+			usersLayout.Children.Add(button);
+		}
+
+		void Scan_Clicked(object sender, EventArgs e)
+		{
+			display.Text = "Skanowanie w poszukiwaniu urządzeń...";
+			_bluetoothManager.Scan();
+		}
+
+	}
 }
