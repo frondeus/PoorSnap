@@ -71,7 +71,7 @@ namespace BTApplication.iOS
 			return del.DiscoveredPeripherals.Select(d => new iOsUser
 			{
 				Peripheral = d,
-				Name = string.IsNullOrWhiteSpace(d.Name) ? " Undefined device " : d.Name
+				Name = string.IsNullOrWhiteSpace(d.Name) ? "Undefined device" : d.Name
 			}).ToList();
 		}
 
