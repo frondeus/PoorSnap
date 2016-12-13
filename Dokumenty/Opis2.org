@@ -184,3 +184,7 @@
      [https://developer.xamarin.com/api/namespace/ExternalAccessory/]
      Aktualizacja środowiska Xamarin Studio z powodów wymuszonej aktualizacji =IDE= XCode 8.
      Walka z błędami przy wdrażaniu na natywne urządzenie.
+** Na dzień 01-12-2016
+   * *Wojciech Polak*:
+     Czasami w momencie budowania aplikacji pod system iOS pojawia się błąd /resource fork, Finder information, or similar detritus not allowed/
+     Rozwiązaniem jest w terminalu przejście do folderu =iOS/bin/iPhone/Debug/build-iphone8.4-10.1.1/BTApplicationiOS.app= i wykonanie komendy =xattr -rc .=
