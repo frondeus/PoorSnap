@@ -14,6 +14,7 @@ namespace BTApplication.Handlers
 		{
 			Page.usersLayout.Children.Clear();
 			Page.display.Text = users.Count() > 0 ? "Znaleziono: " : "Nie znaleziono urządzeń...";
+            
 			foreach (var user in users)
 			{
 				Page.AddButton(user);
