@@ -26,7 +26,20 @@ namespace BTApplication.Droid.Logic
 
         public void Connect(User user)
         {
+            var androidUser = (AndroidUser) user;
+            var btDevice = androidUser.BluetoothDevice;
 
+            while (!btDevice.CreateBond())
+            {
+            }
+
+            var socket =
+                btDevice.CreateRfcommSocketToServiceRecord(
+                    UUID.FromString(_bluetoothAdapter.Name)
+                );
+            socket.Connect();
+            var output = socket.OutputStream;
+            var input = socket.InputStream;
         }
 
         public void Disconnect()
@@ -36,6 +49,7 @@ namespace BTApplication.Droid.Logic
 
         public async void Scan()
         {
+            _bluetoothAdapter.CancelDiscovery();
             var foundDevices = await PerformScanAsync();
             ConnectionHandler.OnAvailableConnections(foundDevices);
         }
@@ -55,15 +69,12 @@ namespace BTApplication.Droid.Logic
         private List<AndroidUser> PerformScan()
         {
             _bluetoothAdapter.StartDiscovery();
-
             while (_bluetoothAdapter.IsDiscovering) { }
 
             var foundDevices = _receiver.GetFoundDevices();
             _receiver.FlushList();
             return foundDevices;
         }
-
-
 
         private Task ListenAsServerTask()
         {

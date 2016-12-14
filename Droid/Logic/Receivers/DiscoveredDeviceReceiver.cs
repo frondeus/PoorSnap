@@ -25,7 +25,7 @@ namespace BTApplication.Droid.Logic.Receivers
 
         public List<AndroidUser> GetFoundDevices()
         {
-            return _foundDevices.Distinct().ToList();
+            return _foundDevices.GroupBy(x => x.Name).Select(x => x.First()).ToList();
         }
 
         public void FlushList()
