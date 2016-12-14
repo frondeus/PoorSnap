@@ -19,9 +19,14 @@ namespace BTApplication.Droid
 
 			global::Xamarin.Forms.Forms.Init(this, bundle);
 
-            //Register receivers
+            //Register main receiver for discovering devices
             var receiver = new DiscoveredDeviceReceiver();
             RegisterReceiver(receiver, new IntentFilter(BluetoothDevice.ActionFound));
+
+            //Request discoverability for infinite amount of time
+            var discoverability = new Intent(BluetoothAdapter.ActionRequestDiscoverable);
+            discoverability.PutExtra(BluetoothAdapter.ExtraDiscoverableDuration, 0);
+            StartActivity(discoverability);
 
             //Load application
             var app = new App(new Logic.BluetoothManager(receiver));
