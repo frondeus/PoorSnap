@@ -14,6 +14,9 @@
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\ConnectionPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\ChatPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
@@ -32,6 +35,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IMessageHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\ConnectionPage.xaml.cs">
       <DependentUpon>ConnectionPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\ChatPage.xaml.cs">
+      <DependentUpon>ChatPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

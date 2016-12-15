@@ -14,8 +14,13 @@ namespace BTApplication
 
 			var oldPage = new BTApplicationPage(bluetoothManager); // TODO Jak już będzie widok czatu pozbyć się!
 			var connectionPage = new ConnectionPage(bluetoothManager);
+			var chatPage = new ChatPage(bluetoothManager);
 
 			var mainPage = new NavigationPage(connectionPage);
+			//TODO: Usunac
+			bluetoothManager.Connect(null);
+			mainPage.PushAsync(chatPage);
+			//END TODO
 
 			MainPage = mainPage;
 
