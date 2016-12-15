@@ -12,11 +12,11 @@
 		</Label>
 		<StackLayout x:Name="UsersLayout">
 		</StackLayout>
-    <Label x:Name="Choice" Text="">
-    </Label>
-    <StackLayout x:Name="UserChoice">
-    </StackLayout>
-    <Label x:Name="Result" FontSize="20" Text="" Margin="20" BackgroundColor="Teal" TextColor="Silver" HorizontalTextAlignment="Center">
-    </Label>
+	    <Label x:Name="Choice" Text="Input:">
+	    </Label>
+	    <StackLayout x:Name="UserChoice">
+	    </StackLayout>
+	    <StackLayout x:Name="Result" >
+	    </StackLayout>
 	</StackLayout>
 </ContentPage>

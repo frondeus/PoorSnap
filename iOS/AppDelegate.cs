@@ -11,12 +11,14 @@ namespace BTApplication.iOS
 	[Register("AppDelegate")]
 	public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsApplicationDelegate
 	{
-		BluetoothManager bluetoothManager;
+		IBluetoothManager bluetoothManager;
 		public override bool FinishedLaunching(UIApplication app, NSDictionary options)
 		{
 			global::Xamarin.Forms.Forms.Init();
 
-			bluetoothManager = new BluetoothManager();
+			//bluetoothManager = new BluetoothManager();
+			bluetoothManager = new Fake.BluetoothManager();
+
 
 			LoadApplication(new App(bluetoothManager));
 
