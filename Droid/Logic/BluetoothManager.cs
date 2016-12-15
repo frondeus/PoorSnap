@@ -102,7 +102,7 @@ namespace BTApplication.Droid.Logic
 
                 _outputStream = connectSocket.OutputStream;
                 _inputStream = connectSocket.InputStream;
-                ListenToMessagesTask(connectSocket);
+                ListenToMessagesTask();
 
                 connectSocket.Dispose();
                 socket.Dispose();
@@ -128,7 +128,7 @@ namespace BTApplication.Droid.Logic
 
         #region listenToMessages
 
-        private Task ListenToMessagesTask(BluetoothSocket soc)
+        private Task ListenToMessagesTask()
         {
             return Task.Factory.StartNew(() =>
             {
@@ -138,7 +138,7 @@ namespace BTApplication.Droid.Logic
 
                     if(msg == -1) continue;
 
-                    Console.WriteLine("TUTAJ KURWIU: " + msg);
+                    Console.WriteLine("TAKA SOBIE WIADOMOSC: " + msg);
                     MessageHandler.OnMessage(new Message() {TextContent = msg.ToString()} );
                 }
             });
