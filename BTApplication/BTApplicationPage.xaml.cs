@@ -11,9 +11,8 @@ namespace BTApplication
 
 		public StackLayout usersLayout;
 		public Label display;
-	    public Label choice;
-	    public StackLayout userChoice;
-	    public Label result;
+		public Label choice;
+		public StackLayout userChoice;
 
 		public BTApplicationPage(IBluetoothManager bluetoothManager)
 		{
@@ -22,12 +21,11 @@ namespace BTApplication
 
 			display = this.FindByName<Label>("Display");
 			usersLayout = this.FindByName<StackLayout>("UsersLayout");
-            choice = this.FindByName<Label>("Choice");
-            userChoice = this.FindByName<StackLayout>("UserChoice");
-            result = this.FindByName<Label>("Result");
-        }
+			choice = this.FindByName<Label>("Choice");
+			userChoice = this.FindByName<StackLayout>("UserChoice");
+		}
 
-        public void AddButton(User user)
+		public void AddButton(User user)
 		{
 			var button = new Button { Text = user.Name };
 			button.Clicked += (object sender, EventArgs e) =>
@@ -37,20 +35,26 @@ namespace BTApplication
 			usersLayout.Children.Add(button);
 		}
 
+		public void AddMessage(string message)
+		{
+			var label = new Label { Text = message };
+			Result.Children.Add(label);
+		}
+
 		void Scan_Clicked(object sender, EventArgs e)
 		{
 			display.Text = "Skanowanie w poszukiwaniu urządzeń...";
 			_bluetoothManager.Scan();
 		}
 
-	    public void AddChoice(byte bit)
-	    {
-            var button = new Button { Text = bit.ToString() };
-            button.Clicked += (object sender, EventArgs e) =>
-            {
-                _bluetoothManager.SendMessage(new Message() {TextContent = bit.ToString()});
-            };
-            userChoice.Children.Add(button);
-        }
+		public void AddChoice(byte bit)
+		{
+			var button = new Button { Text = bit.ToString() };
+			button.Clicked += (object sender, EventArgs e) =>
+			{
+				_bluetoothManager.SendMessage(new Message() { TextContent = bit.ToString() });
+			};
+			userChoice.Children.Add(button);
+		}
 	}
 }

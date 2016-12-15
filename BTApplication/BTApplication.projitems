@@ -29,6 +29,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)IBluetoothManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IMessageHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IConnectionHandler.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Fake\BluetoothManager.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Fake\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)ChatPage.xaml">
