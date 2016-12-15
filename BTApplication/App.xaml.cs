@@ -8,13 +8,15 @@ namespace BTApplication
 	    public App(IBluetoothManager bluetoothManager = null)
 		{
             var connectionHandler = new ConnectionHandler();
-            bluetoothManager.MessageHandler = new MessageHandler();
+            var messageHandler = new MessageHandler();
+		    bluetoothManager.MessageHandler = messageHandler;
             bluetoothManager.ConnectionHandler = connectionHandler;
 
             var connectionPage = new BTApplicationPage(bluetoothManager);
             MainPage = connectionPage;
             connectionHandler.Page = connectionPage;
-           // MainPage = new Page1();
+		    messageHandler.Page = connectionPage;
+		    // MainPage = new Page1();
 		}
 
 		protected override void OnStart()

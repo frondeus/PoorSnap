@@ -12,5 +12,11 @@
 		</Label>
 		<StackLayout x:Name="UsersLayout">
 		</StackLayout>
+    <Label x:Name="Choice" Text="">
+    </Label>
+    <StackLayout x:Name="UserChoice">
+    </StackLayout>
+    <Label x:Name="Result" FontSize="20">
+    </Label>
 	</StackLayout>
 </ContentPage>

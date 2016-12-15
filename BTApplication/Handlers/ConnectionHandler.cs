@@ -22,7 +22,10 @@ namespace BTApplication.Handlers
 
 		public void OnConnected(User user)
 		{
-			//throw new NotImplementedException();
+            //throw new NotImplementedException();
+		    Page.choice.Text = "Wybierz se bita";
+            Page.AddChoice(0);
+            Page.AddChoice(1);
 		}
 
 		public void OnDisconnected(User user)
