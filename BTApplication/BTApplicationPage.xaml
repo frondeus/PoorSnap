@@ -16,7 +16,7 @@
     </Label>
     <StackLayout x:Name="UserChoice">
     </StackLayout>
-    <Label x:Name="Result" FontSize="20">
+    <Label x:Name="Result" FontSize="20" Text="" Margin="20px" BackgroundColor="Teal" TextColor="Silver" HorizontalTextAlignment="Center">
     </Label>
 	</StackLayout>
 </ContentPage>

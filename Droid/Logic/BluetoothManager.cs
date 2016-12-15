@@ -7,7 +7,6 @@ using BTApplication.Droid.Logic.Receivers;
 using BTApplication.Droid.Models;
 using Java.Util;
 using System.IO;
-using Android.Widget;
 using Console = System.Console;
 
 namespace BTApplication.Droid.Logic
@@ -69,6 +68,7 @@ namespace BTApplication.Droid.Logic
 
         public void SendMessage(Message message)
         {
+            _outputStream.Flush();
             _outputStream.WriteByte(message.TextContent.Equals("1") ? (byte)1 : (byte)0);
         }
 

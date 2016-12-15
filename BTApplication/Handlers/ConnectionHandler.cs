@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using BTApplication.Models;
-using Xamarin.Forms;
 using System.Linq;
 
 namespace BTApplication.Handlers
