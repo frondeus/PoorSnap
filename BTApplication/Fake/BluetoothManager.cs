@@ -44,6 +44,8 @@ namespace BTApplication.Fake
 				return;
 			}
 
+			Console.WriteLine("Disconnecting...");
+
 			timer.Stop();
 			timer = null;
 		}

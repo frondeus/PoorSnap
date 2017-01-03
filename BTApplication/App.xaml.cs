@@ -17,6 +17,12 @@ namespace BTApplication
 			var chatPage = new ChatPage(bluetoothManager);
 
 			var mainPage = new NavigationPage(connectionPage);
+
+			mainPage.Popped += (sender, e) =>
+			{
+				bluetoothManager.Disconnect();
+			};
+
 			//TODO: Usunac
 			bluetoothManager.Connect(null);
 			mainPage.PushAsync(chatPage);
