@@ -10,25 +10,39 @@
   </PropertyGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)App.xaml" />
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)BTApplicationPage.xaml" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\BTApplicationPage.xaml" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\ConnectionPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\ChatPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)BTApplicationPage.xaml.cs">
-      <DependentUpon>BTApplicationPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Handlers\ConnectionHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Handlers\MessageHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\User.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Message.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)IBluetoothManager.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)IMessageHandler.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)IConnectionHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Fake\BluetoothManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\BTApplicationPage.xaml.cs">
+      <DependentUpon>BTApplicationPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IBluetoothManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IConnectionHandler.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IMessageHandler.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\ConnectionPage.xaml.cs">
+      <DependentUpon>ConnectionPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\ChatPage.xaml.cs">
+      <DependentUpon>ChatPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Fake\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Views\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Interfaces\" />
   </ItemGroup>
 </Project>

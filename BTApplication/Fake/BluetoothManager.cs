@@ -17,7 +17,7 @@ namespace BTApplication.Fake
 
 		public void Connect(User user)
 		{
-			timer = new Timer(1000);
+			timer = new Timer(5000);
 			var i = 0;
 			timer.Elapsed += (sender, e) =>
 			{

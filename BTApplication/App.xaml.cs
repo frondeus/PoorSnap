@@ -5,18 +5,29 @@ namespace BTApplication
 {
 	public partial class App : Application
 	{
-	    public App(IBluetoothManager bluetoothManager = null)
+		public App(IBluetoothManager bluetoothManager = null)
 		{
-            var connectionHandler = new ConnectionHandler();
-            var messageHandler = new MessageHandler();
-		    bluetoothManager.MessageHandler = messageHandler;
-            bluetoothManager.ConnectionHandler = connectionHandler;
+			var connectionHandler = new ConnectionHandler();
+			var messageHandler = new MessageHandler();
+			bluetoothManager.MessageHandler = messageHandler;
+			bluetoothManager.ConnectionHandler = connectionHandler;
 
-            var connectionPage = new BTApplicationPage(bluetoothManager);
-            MainPage = connectionPage;
-            connectionHandler.Page = connectionPage;
-		    messageHandler.Page = connectionPage;
-		    // MainPage = new Page1();
+			var oldPage = new BTApplicationPage(bluetoothManager); // TODO Jak już będzie widok czatu pozbyć się!
+			var connectionPage = new ConnectionPage(bluetoothManager);
+			var chatPage = new ChatPage(bluetoothManager);
+
+			var mainPage = new NavigationPage(connectionPage);
+			//TODO: Usunac
+			bluetoothManager.Connect(null);
+			mainPage.PushAsync(chatPage);
+			//END TODO
+
+			MainPage = mainPage;
+
+			connectionHandler.Nav = messageHandler.Nav = mainPage;
+
+			connectionHandler.Page = connectionPage;
+			messageHandler.Page = oldPage;
 		}
 
 		protected override void OnStart()

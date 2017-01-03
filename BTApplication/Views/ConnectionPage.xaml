@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="BTApplication.ConnectionPage" Title="Dostępne połączenia">
+	<ContentPage.Padding>
+		<OnPlatform x:TypeArguments="Thickness" iOS="4, 4, 4, 4" Android="4, 4, 4, 4" />
+	</ContentPage.Padding>
+	<ContentPage.Content>
+		<StackLayout>
+			<ListView x:Name="ScannedList">
+				<ListView.ItemTemplate>
+					<DataTemplate>
+						<TextCell Text="{Binding Name}"></TextCell>
+					</DataTemplate>
+				</ListView.ItemTemplate>
+			</ListView>
+		</StackLayout>
+	</ContentPage.Content>
+</ContentPage>

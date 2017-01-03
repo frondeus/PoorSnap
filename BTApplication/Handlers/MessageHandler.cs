@@ -9,6 +9,8 @@ namespace BTApplication.Handlers
 	public class MessageHandler : IMessageHandler
 	{
 		public BTApplicationPage Page { get; set; }
+		public NavigationPage Nav { get; set; }
+
 		public void OnMessage(Message message)
 		{
 			Page.AddMessage(message.TextContent);

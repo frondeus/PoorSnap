@@ -1,33 +1,27 @@
 ﻿using System.Collections.Generic;
 using BTApplication.Models;
 using System.Linq;
+using System;
+using Xamarin.Forms;
 
 namespace BTApplication.Handlers
 {
 	class ConnectionHandler : IConnectionHandler
 	{
-		public BTApplicationPage Page { get; set; }
+		public ConnectionPage Page { get; set; }
+		public NavigationPage Nav { get; set; }
+
 		public void OnAvailableConnections(IEnumerable<User> users)
 		{
-			Page.usersLayout.Children.Clear();
-			Page.display.Text = users.Count() > 0 ? "Znaleziono: " : "Nie znaleziono urządzeń...";
-			foreach (var user in users)
-			{
-				Page.AddButton(user);
-			}
+			Page.SetUsersList(users.ToArray());
 		}
 
 		public void OnConnected(User user)
 		{
-            //throw new NotImplementedException();
-		    Page.choice.Text = "Wybierz se bita";
-            Page.AddChoice(0);
-            Page.AddChoice(1);
 		}
 
 		public void OnDisconnected(User user)
 		{
-			//throw new NotImplementedException();
 		}
 	}
 }
