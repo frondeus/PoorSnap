@@ -13,6 +13,8 @@ namespace BTApplication
 			bluetoothManager.ConnectionHandler = connectionHandler;
 
 			var oldPage = new BTApplicationPage(bluetoothManager); // TODO Jak już będzie widok czatu pozbyć się!
+																   // TODO A dokładniej jak widok czatu już będzie w pełni obsługiwany przez messageHandler.
+
 			var connectionPage = new ConnectionPage(bluetoothManager);
 			var chatPage = new ChatPage(bluetoothManager);
 
@@ -23,7 +25,7 @@ namespace BTApplication
 				bluetoothManager.Disconnect();
 			};
 
-			//TODO: Usunac
+			//TODO: Usunac, to jest jedynie do testów za pomocą FakeHandlera
 			bluetoothManager.Connect(null);
 			mainPage.PushAsync(chatPage);
 			//END TODO
