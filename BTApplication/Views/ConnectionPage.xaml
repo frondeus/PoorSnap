@@ -5,7 +5,7 @@
 	</ContentPage.Padding>
 	<ContentPage.Content>
 		<StackLayout>
-			<ListView x:Name="ScannedList">
+			<ListView x:Name="ScannedList" Refreshing="Scan_Clicked" ItemSelected="OnSelected">
 				<ListView.ItemTemplate>
 					<DataTemplate>
 						<TextCell Text="{Binding Name}">

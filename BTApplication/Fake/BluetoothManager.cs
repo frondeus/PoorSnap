@@ -42,16 +42,18 @@ namespace BTApplication.Fake
 			ConnectionHandler.OnConnected(user);
 		}
 
-		public void Disconnect()
+		async public void Disconnect()
 		{
 			if (timer == null)
 			{
 				return;
 			}
 
-			Console.WriteLine("Disconnecting...");
-
 			timer.Stop();
+
+			Console.WriteLine("Disconnecting...");
+			await Task.Delay(5000);
+
 			timer = null;
 			ConnectionHandler.OnDisconnected(currentUser);
 		}

@@ -21,17 +21,21 @@ namespace BTApplication
 			InitializeComponent();
 
 			ScannedList.IsPullToRefreshEnabled = true;
-			ScannedList.Refreshing += Scan_Clicked;
-			Console.WriteLine("Create Connection Page");
-			ScannedList.ItemSelected += (sender, e) =>
+			//ScannedList.Refreshing += Scan_Clicked;
+		}
+
+		void OnSelected(object sender, EventArgs e)
+		{
+			var selectedItem = ((ListView)sender).SelectedItem;
+			if (selectedItem == null)
 			{
-				var selectedItem = ((ListView)sender).SelectedItem;
+				return;
+			}
 
-				Console.WriteLine("Clicked");
-				_bluetoothManager.Connect((User)selectedItem);
+			Console.WriteLine("Clicked");
+			_bluetoothManager.Connect((User)selectedItem);
 
-				((ListView)sender).SelectedItem = null;
-			};
+			((ListView)sender).SelectedItem = null;
 		}
 
 		public void SetUsersList(User[] users)
