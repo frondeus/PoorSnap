@@ -17,8 +17,6 @@
 					</DataTemplate>
 				</ListView.ItemTemplate>
 			</ListView>
-			<Entry x:Name="UserName" Placeholder="Username" TextColor="Blue">
-			</Entry>
 			<Editor x:Name="Input">
 			</Editor>
 			<Button Text="Wyślij" Clicked="Handle_Clicked">
