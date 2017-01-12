@@ -26,7 +26,7 @@ namespace BTApplication
 
 		void Handle_Clicked(object sender, EventArgs e)
 		{
-            string name = UsrName.Text;
+            string name = UserName.Text;
             string text = Input.Text;
             if (name.Length == 0)
             {

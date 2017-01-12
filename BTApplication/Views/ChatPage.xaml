@@ -15,7 +15,7 @@
           </viewcell>
 				</ListView.ItemTemplate>
 			</ListView>
-      <Editor x:Name="UsrName" Color="Blue" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" HeightRequest="160"></Editor>
+      <Entry x:Name="UserName" Placeholder="Username" Color="Blue" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" HeightRequest="160"></Entry>
 			<Editor x:Name="Input" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" HeightRequest="160"></Editor>
 			<Button Text="Wyślij" Clicked="Handle_Clicked"></Button>
 		</StackLayout>
