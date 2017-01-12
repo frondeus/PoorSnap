@@ -10,10 +10,10 @@ namespace BTApplication
 	{
 		private IBluetoothManager _bluetoothManager;
 
-        public IBluetoothManager getBM()
-        {
-            return _bluetoothManager;
-        }
+		public IBluetoothManager getBM()
+		{
+			return _bluetoothManager;
+		}
 
 		public ConnectionPage(IBluetoothManager bluetoothManager)
 		{
@@ -22,10 +22,12 @@ namespace BTApplication
 
 			ScannedList.IsPullToRefreshEnabled = true;
 			ScannedList.Refreshing += Scan_Clicked;
+			Console.WriteLine("Create Connection Page");
 			ScannedList.ItemSelected += (sender, e) =>
 			{
 				var selectedItem = ((ListView)sender).SelectedItem;
 
+				Console.WriteLine("Clicked");
 				_bluetoothManager.Connect((User)selectedItem);
 
 				((ListView)sender).SelectedItem = null;

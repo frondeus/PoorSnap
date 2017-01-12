@@ -7,27 +7,24 @@ namespace BTApplication
 	{
 		public App(IBluetoothManager bluetoothManager = null)
 		{
+			bluetoothManager = new Fake.BluetoothManager();
+
 			var connectionHandler = new ConnectionHandler();
-            bluetoothManager = new Fake.BluetoothManager();
+			bluetoothManager = new Fake.BluetoothManager();
 			bluetoothManager.ConnectionHandler = connectionHandler;
 
-            var connectionPage = new ConnectionPage(bluetoothManager);
+			var connectionPage = new ConnectionPage(bluetoothManager);
 			var mainPage = new NavigationPage(connectionPage);
 
-            MainPage = mainPage;
+			MainPage = mainPage;
 
-            connectionHandler.Nav = mainPage;
-            connectionHandler.Page = connectionPage;
+			connectionHandler.Nav = mainPage;
+			connectionHandler.Page = connectionPage;
 
 			mainPage.Popped += (sender, e) =>
 			{
 				bluetoothManager.Disconnect();
 			};
-
-        /*    Models.User us = new Models.User();
-            connectionHandler.OnConnected(us);
-        */
-
 		}
 
 		protected override void OnStart()

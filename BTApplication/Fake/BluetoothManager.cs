@@ -10,13 +10,15 @@ namespace BTApplication.Fake
 	public class BluetoothManager : IBluetoothManager
 	{
 		private Timer timer = null;
+		private User currentUser;
 
 		public IConnectionHandler ConnectionHandler { get; set; }
 
 		public IMessageHandler MessageHandler { get; set; }
 
-		public void Connect(User user)
+		async public void Connect(User user)
 		{
+			await Task.Delay(5000);
 			timer = new Timer(5000);
 			var i = 0;
 			timer.Elapsed += (sender, e) =>
@@ -35,7 +37,9 @@ namespace BTApplication.Fake
 				});
 			};
 			timer.Start();
-            ConnectionHandler.OnConnected(user);
+
+			currentUser = user;
+			ConnectionHandler.OnConnected(user);
 		}
 
 		public void Disconnect()
@@ -49,6 +53,7 @@ namespace BTApplication.Fake
 
 			timer.Stop();
 			timer = null;
+			ConnectionHandler.OnDisconnected(currentUser);
 		}
 
 		public async void Scan()
@@ -56,7 +61,7 @@ namespace BTApplication.Fake
 			await Task.Delay(5000);
 
 			var list = new List<User>();
-			for (int i = 0; i < 3; i++)
+			for (int i = 0; i < 20; i++)
 			{
 				var user = new User
 				{

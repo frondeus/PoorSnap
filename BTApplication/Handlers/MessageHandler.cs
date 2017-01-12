@@ -3,33 +3,32 @@ using BTApplication.Models;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using System;
+using System.Collections.ObjectModel;
 
 namespace BTApplication.Handlers
 {
 	public class MessageHandler : IMessageHandler
 	{
-		public ChatPage Page { get; set; }
+		private ChatPage _chatPage;
+		public ChatPage ChatPage
+		{
+			get
+			{
+				return _chatPage;
+			}
+			set
+			{
+				_chatPage = value;
+				_chatPage.SetMessages(messages);
+			}
+		}
 		public NavigationPage Nav { get; set; }
+
+		private ObservableCollection<Message> messages = new ObservableCollection<Message>();
 
 		public void OnMessage(Message message)
 		{
-			//Page.AddMessage(message.TextContent);
-			Console.WriteLine(message.TextContent);
+			messages.Add(message);
 		}
-
-		private Label CreateMessage(Message message)
-		{
-			return new Label()
-			{
-				Text = message.TextContent,
-				TextColor = GetTextColor(message.isLocal),
-			};
-		}
-
-		private Color GetTextColor(bool isLocal)
-		{
-			if (isLocal) return Color.Blue;
-			return Color.Aqua;
-		}
-    }
+	}
 }

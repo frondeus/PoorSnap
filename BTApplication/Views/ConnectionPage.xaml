@@ -8,7 +8,8 @@
 			<ListView x:Name="ScannedList">
 				<ListView.ItemTemplate>
 					<DataTemplate>
-						<TextCell Text="{Binding Name}"></TextCell>
+						<TextCell Text="{Binding Name}">
+						</TextCell>
 					</DataTemplate>
 				</ListView.ItemTemplate>
 			</ListView>
