@@ -6,11 +6,11 @@
 				<ListView.ItemTemplate>
           <DataTemplate>
             <ViewCell>
-              <StackLayout orientation="Vertical">
+              <StackLayout Orientation="Vertical">
                 <Grid BackgroundColor="White" HeightRequest="10"/>
-                <StackLayout orientation="Vertical" Padding="20" BackgroundColor="Purple">
-                  <Label text="{Binding Name}" TextColor="Blue" Font="Bold"/>
-                  <Label text="{Binding TextContent}" TextColor="White"/>
+                <StackLayout Orientation="Vertical" Padding="20" BackgroundColor="Purple">
+                  <Label Text="{Binding Name}" TextColor="Blue" Font="Bold"/>
+                  <Label Text="{Binding TextContent}" TextColor="White"/>
                 </StackLayout>
               </StackLayout>
             </ViewCell>

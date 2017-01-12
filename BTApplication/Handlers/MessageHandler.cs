@@ -8,12 +8,12 @@ namespace BTApplication.Handlers
 {
 	public class MessageHandler : IMessageHandler
 	{
-		public BTApplicationPage Page { get; set; }
+		public ChatPage Page { get; set; }
 		public NavigationPage Nav { get; set; }
 
 		public void OnMessage(Message message)
 		{
-			Page.AddMessage(message.TextContent);
+			//Page.AddMessage(message.TextContent);
 			Console.WriteLine(message.TextContent);
 		}
 
@@ -31,5 +31,5 @@ namespace BTApplication.Handlers
 			if (isLocal) return Color.Blue;
 			return Color.Aqua;
 		}
-	}
+    }
 }

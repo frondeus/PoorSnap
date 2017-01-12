@@ -10,6 +10,7 @@ namespace BTApplication.Handlers
 	{
 		public ConnectionPage Page { get; set; }
 		public NavigationPage Nav { get; set; }
+        public ChatPage chatPage;
 
 		public void OnAvailableConnections(IEnumerable<User> users)
 		{
@@ -18,10 +19,24 @@ namespace BTApplication.Handlers
 
 		public void OnConnected(User user)
 		{
-		}
+            chatPage = new ChatPage(Page.getBM(), user);
+            var messageHandler = new MessageHandler();
+            Page.getBM().MessageHandler = messageHandler;
+            messageHandler.Page = chatPage;
+            messageHandler.Nav = Nav;
+
+            Nav.PushAsync(chatPage);
+
+            Nav.Popped += (sender, e) =>
+            {
+                OnDisconnected(user);
+            };
+        }
 
 		public void OnDisconnected(User user)
 		{
-		}
+            Nav.PopAsync();
+            Nav.PushAsync(Page);
+        }
 	}
 }

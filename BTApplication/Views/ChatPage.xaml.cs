@@ -10,7 +10,7 @@ namespace BTApplication
         private List<Message> _messages = new List<Message>();
         private IBluetoothManager _bluetoothManager;
 
-		public ChatPage(IBluetoothManager bluetoothManager)
+		public ChatPage(IBluetoothManager bluetoothManager, User user)
 		{
 			_bluetoothManager = bluetoothManager;
 			InitializeComponent();

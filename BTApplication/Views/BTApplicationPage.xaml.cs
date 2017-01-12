@@ -7,7 +7,7 @@ namespace BTApplication
 {
 	public partial class BTApplicationPage : ContentPage
 	{
-		private readonly IBluetoothManager _bluetoothManager;
+		private IBluetoothManager _bluetoothManager;
 
 		public StackLayout usersLayout;
 		public Label display;
@@ -23,9 +23,15 @@ namespace BTApplication
 			usersLayout = this.FindByName<StackLayout>("UsersLayout");
 			choice = this.FindByName<Label>("Choice");
 			userChoice = this.FindByName<StackLayout>("UserChoice");
+
 		}
 
-		public void AddButton(User user)
+        public IBluetoothManager getBM()
+        {
+            return _bluetoothManager;
+        }
+
+        public void AddButton(User user)
 		{
 			var button = new Button { Text = user.Name };
 			button.Clicked += (object sender, EventArgs e) =>

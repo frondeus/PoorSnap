@@ -35,6 +35,7 @@ namespace BTApplication.Fake
 				});
 			};
 			timer.Start();
+            ConnectionHandler.OnConnected(user);
 		}
 
 		public void Disconnect()

@@ -8,34 +8,26 @@ namespace BTApplication
 		public App(IBluetoothManager bluetoothManager = null)
 		{
 			var connectionHandler = new ConnectionHandler();
-			var messageHandler = new MessageHandler();
-			bluetoothManager.MessageHandler = messageHandler;
+            bluetoothManager = new Fake.BluetoothManager();
 			bluetoothManager.ConnectionHandler = connectionHandler;
 
-			var oldPage = new BTApplicationPage(bluetoothManager); // TODO Jak już będzie widok czatu pozbyć się!
-																   // TODO A dokładniej jak widok czatu już będzie w pełni obsługiwany przez messageHandler.
-
-			var connectionPage = new ConnectionPage(bluetoothManager);
-			var chatPage = new ChatPage(bluetoothManager);
-
+            var connectionPage = new ConnectionPage(bluetoothManager);
 			var mainPage = new NavigationPage(connectionPage);
+
+            MainPage = mainPage;
+
+            connectionHandler.Nav = mainPage;
+            connectionHandler.Page = connectionPage;
 
 			mainPage.Popped += (sender, e) =>
 			{
 				bluetoothManager.Disconnect();
 			};
 
-			//TODO: Usunac, to jest jedynie do testów za pomocą FakeHandlera
-			/*bluetoothManager.Connect(null);
-			mainPage.PushAsync(chatPage);*/
-			//END TODO
+        /*    Models.User us = new Models.User();
+            connectionHandler.OnConnected(us);
+        */
 
-			MainPage = mainPage;
-
-			connectionHandler.Nav = messageHandler.Nav = mainPage;
-
-			connectionHandler.Page = connectionPage;
-			messageHandler.Page = oldPage;
 		}
 
 		protected override void OnStart()

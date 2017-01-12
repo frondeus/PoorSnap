@@ -10,6 +10,11 @@ namespace BTApplication
 	{
 		private IBluetoothManager _bluetoothManager;
 
+        public IBluetoothManager getBM()
+        {
+            return _bluetoothManager;
+        }
+
 		public ConnectionPage(IBluetoothManager bluetoothManager)
 		{
 			_bluetoothManager = bluetoothManager;
