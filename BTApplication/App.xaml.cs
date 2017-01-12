@@ -26,8 +26,8 @@ namespace BTApplication
 			};
 
 			//TODO: Usunac, to jest jedynie do testów za pomocą FakeHandlera
-			bluetoothManager.Connect(null);
-			mainPage.PushAsync(chatPage);
+			/*bluetoothManager.Connect(null);
+			mainPage.PushAsync(chatPage);*/
 			//END TODO
 
 			MainPage = mainPage;

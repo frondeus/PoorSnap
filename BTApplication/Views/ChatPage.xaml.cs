@@ -7,28 +7,39 @@ namespace BTApplication
 {
 	public partial class ChatPage : ContentPage
 	{
-		private IBluetoothManager _bluetoothManager;
+        private List<Message> _messages = new List<Message>();
+        private IBluetoothManager _bluetoothManager;
 
 		public ChatPage(IBluetoothManager bluetoothManager)
 		{
 			_bluetoothManager = bluetoothManager;
 			InitializeComponent();
+            for(var i=0;i<10;i++)
+            _messages.Add(new Message
+            {
+                TextContent = "Przykładowa wiadomość "+i
+            });
 
-			//TODO: Usunąć
-			Output.ItemsSource = new Message[] {
-				new Message {
-					TextContent = "Przykładowa wiadomość"
-				}
-			};
+            //TODO: Usunąć
+            Output.ItemsSource = _messages;
 		}
 
 		void Handle_Clicked(object sender, EventArgs e)
 		{
-			_bluetoothManager.SendMessage(new Message
-			{
-				TextContent = Input.Text
-			});
-
+            string name = UsrName.Text;
+            string text = Input.Text;
+            if (name.Length == 0)
+            {
+                name = "Anonimowy wysyłacz";
+            }
+            if (text.Length != 0)
+            {
+                _bluetoothManager.SendMessage(new Message
+                {
+                    Name = name,
+                    TextContent = text
+                });
+            }
 			Input.Text = "";
 		}
 	}

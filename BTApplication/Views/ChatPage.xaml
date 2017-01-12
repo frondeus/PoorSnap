@@ -4,11 +4,18 @@
 		<StackLayout>
 			<ListView x:Name="Output" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
 				<ListView.ItemTemplate>
-					<DataTemplate>
-						<TextCell Text="{Binding TextContent}"></TextCell>
-					</DataTemplate>
+          <viewcell>
+            <StackLayout orientation="Vertical">
+              <Grid BackgroundColor="White" HeightRequest="10"/>
+                   <StackLayout orientation="Vertical" Padding="20" BackgroundColor="Purple">
+                       <Label text="{Binding Name}" Color="Blue" Font="Bold"/>
+                       <Label text="{Binding TextContent}" Color="White"/>
+                   </StackLayout>
+              </StackLayout>
+          </viewcell>
 				</ListView.ItemTemplate>
 			</ListView>
+      <Editor x:Name="UsrName" Color="Blue" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" HeightRequest="160"></Editor>
 			<Editor x:Name="Input" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" HeightRequest="160"></Editor>
 			<Button Text="Wyślij" Clicked="Handle_Clicked"></Button>
 		</StackLayout>
