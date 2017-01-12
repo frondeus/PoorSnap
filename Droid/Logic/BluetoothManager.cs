@@ -6,9 +6,11 @@ using Android.Bluetooth;
 using BTApplication.Droid.Logic.Receivers;
 using BTApplication.Droid.Models;
 using Java.Util;
-using System.IO;
+using Android.Media;
 using Console = System.Console;
 using Xamarin.Forms;
+using Encoding = System.Text.Encoding;
+using Stream = System.IO.Stream;
 
 namespace BTApplication.Droid.Logic
 {
@@ -69,8 +71,9 @@ namespace BTApplication.Droid.Logic
 
 		public void SendMessage(Message message)
 		{
-			_outputStream.Flush();
-			_outputStream.WriteByte(message.TextContent.Equals("1") ? (byte)1 : (byte)0);
+		    var encodedMessage = Encoding.UTF8.GetBytes(message.TextContent);
+            _outputStream.Write(encodedMessage, 0 , encodedMessage.Length);
+            _outputStream.Flush();
 		}
 
 		#region scan
@@ -135,14 +138,16 @@ namespace BTApplication.Droid.Logic
 			{
 				while (true)
 				{
-					var msg = _inputStream.ReadByte();
+				    var incomingBytes = new byte[1024];
+					_inputStream.Read(incomingBytes, 0, incomingBytes.Length);
+				    var decodedMessage = Encoding.UTF8.GetString(incomingBytes);
 
-					if (msg == -1) continue;
+					if (string.IsNullOrEmpty(decodedMessage)) continue;
 
 					Device.BeginInvokeOnMainThread(() =>
 					{
-						Console.WriteLine("TAKA SOBIE WIADOMOSC: " + msg);
-						MessageHandler.OnMessage(new Message() { TextContent = msg.ToString() });
+						Console.WriteLine("Incoming message: " + decodedMessage);
+						MessageHandler.OnMessage(new Message() { TextContent = decodedMessage });
 					});
 				}
 			});
