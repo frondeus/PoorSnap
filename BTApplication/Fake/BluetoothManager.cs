@@ -19,7 +19,7 @@ namespace BTApplication.Fake
 		async public void Connect(User user)
 		{
 			await Task.Delay(5000);
-			timer = new Timer(5000);
+			timer = new Timer(10000);
 			var i = 0;
 			timer.Elapsed += (sender, e) =>
 			{
