@@ -4,18 +4,20 @@
 		<StackLayout>
 			<ListView x:Name="Output" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
 				<ListView.ItemTemplate>
-          <viewcell>
-            <StackLayout orientation="Vertical">
-              <Grid BackgroundColor="White" HeightRequest="10"/>
-                   <StackLayout orientation="Vertical" Padding="20" BackgroundColor="Purple">
-                       <Label text="{Binding Name}" Color="Blue" Font="Bold"/>
-                       <Label text="{Binding TextContent}" Color="White"/>
-                   </StackLayout>
+          <DataTemplate>
+            <ViewCell>
+              <StackLayout orientation="Vertical">
+                <Grid BackgroundColor="White" HeightRequest="10"/>
+                <StackLayout orientation="Vertical" Padding="20" BackgroundColor="Purple">
+                  <Label text="{Binding Name}" TextColor="Blue" Font="Bold"/>
+                  <Label text="{Binding TextContent}" TextColor="White"/>
+                </StackLayout>
               </StackLayout>
-          </viewcell>
+            </ViewCell>
+          </DataTemplate>
 				</ListView.ItemTemplate>
 			</ListView>
-      <Entry x:Name="UserName" Placeholder="Username" Color="Blue" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" HeightRequest="160"></Entry>
+      <Entry x:Name="UserName" Placeholder="Username" TextColor="Blue" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" HeightRequest="160"></Entry>
 			<Editor x:Name="Input" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" HeightRequest="160"></Editor>
 			<Button Text="Wyślij" Clicked="Handle_Clicked"></Button>
 		</StackLayout>
