@@ -9,11 +9,11 @@ namespace BTApplication
 	public partial class ChatPage : ContentPage
 	{
 		private IBluetoothManager _bluetoothManager;
-        private User _user;
+		private User _user;
 
 		public ChatPage(IBluetoothManager bluetoothManager, User user)
 		{
-            _user = user;
+			_user = user;
 			_bluetoothManager = bluetoothManager;
 			InitializeComponent();
 		}
@@ -25,13 +25,12 @@ namespace BTApplication
 
 		void Handle_Clicked(object sender, EventArgs e)
 		{
-			string name = _user.Name;
-            string text = Input.Text;
+			string text = Input.Text;
 			if (text.Length != 0)
 			{
 				_bluetoothManager.SendMessage(new Message
 				{
-					Name = name,
+					Name = "Me",
 					TextContent = text
 				});
 			}

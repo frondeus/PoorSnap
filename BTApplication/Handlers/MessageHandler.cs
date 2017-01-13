@@ -10,6 +10,7 @@ namespace BTApplication.Handlers
 	public class MessageHandler : IMessageHandler
 	{
 		private ChatPage _chatPage;
+
 		public ChatPage ChatPage
 		{
 			get
@@ -22,6 +23,7 @@ namespace BTApplication.Handlers
 				_chatPage.SetMessages(messages);
 			}
 		}
+
 		public NavigationPage Nav { get; set; }
 
 		private ObservableCollection<Message> messages = new ObservableCollection<Message>();
