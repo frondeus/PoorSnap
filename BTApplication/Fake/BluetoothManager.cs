@@ -18,17 +18,19 @@ namespace BTApplication.Fake
 
 		async public void Connect(User user)
 		{
-			await Task.Delay(5000);
-			timer = new Timer(5000);
+			await Task.Delay(500);
+			timer = new Timer(10000);
 			var i = 0;
 			timer.Elapsed += (sender, e) =>
 			{
 				Device.BeginInvokeOnMainThread(() =>
 				{
+					Console.WriteLine(string.Format("Username: {0}", currentUser.Name));
 
 					var fakeMessage = new Message
 					{
-						TextContent = string.Format("Fake text message {0}", i)
+						TextContent = string.Format("Fake text message {0}", i),
+						Name = user.Name
 					};
 
 					i++;
@@ -52,7 +54,7 @@ namespace BTApplication.Fake
 			timer.Stop();
 
 			Console.WriteLine("Disconnecting...");
-			await Task.Delay(5000);
+			await Task.Delay(500);
 
 			timer = null;
 			ConnectionHandler.OnDisconnected(currentUser);
@@ -60,7 +62,7 @@ namespace BTApplication.Fake
 
 		public async void Scan()
 		{
-			await Task.Delay(5000);
+			await Task.Delay(500);
 
 			var list = new List<User>();
 			for (int i = 0; i < 20; i++)
@@ -78,11 +80,16 @@ namespace BTApplication.Fake
 
 		public async void SendMessage(Message message)
 		{
+
+			MessageHandler.OnMessage(message);
+
 			await Task.Delay(1000);
+
 
 			var fakeMessage = new Message
 			{
-				TextContent = string.Format("Echo message: {0}", message.TextContent)
+				TextContent = string.Format("Echo message: {0}", message.TextContent),
+				Name = currentUser.Name
 
 			};
 

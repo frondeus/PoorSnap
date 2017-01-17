@@ -2,17 +2,14 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="BTApplication.ChatPage" Title="Czat">
 	<ContentPage.Content>
 		<StackLayout>
-			<ListView x:Name="Output">
+			<ListView x:Name="Output" HasUnevenRows="true">
 				<ListView.ItemTemplate>
 					<DataTemplate>
 						<ViewCell>
-							<StackLayout Orientation="Vertical">
-								<Grid BackgroundColor="White" HeightRequest="10" />
-								<StackLayout Orientation="Vertical" Padding="20" BackgroundColor="Purple">
+								<StackLayout Orientation="Vertical" Padding="20" Margin="4" BackgroundColor="Purple">
 									<Label Text="{Binding Name}" TextColor="Blue" Font="Bold" />
 									<Label Text="{Binding TextContent}" TextColor="White" />
 								</StackLayout>
-							</StackLayout>
 						</ViewCell>
 					</DataTemplate>
 				</ListView.ItemTemplate>
