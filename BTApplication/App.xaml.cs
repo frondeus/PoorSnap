@@ -5,11 +5,15 @@ namespace BTApplication
 {
 	public partial class App : Application
 	{
-		public App(IBluetoothManager bluetoothManager = null)
+		public App(IBluetoothManager bluetoothManager)
 		{
-			bluetoothManager = new Fake.BluetoothManager();
+			//bluetoothManager = new Fake.BluetoothManager();
 
 			var connectionHandler = new ConnectionHandler();
+<<<<<<< HEAD
+=======
+			//bluetoothManager = new Fake.BluetoothManager();
+>>>>>>> Kleopas
 			bluetoothManager.ConnectionHandler = connectionHandler;
 
 			var connectionPage = new ConnectionPage(bluetoothManager);

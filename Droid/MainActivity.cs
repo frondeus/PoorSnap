@@ -12,7 +12,7 @@ namespace BTApplication.Droid
 	{
 		protected override void OnCreate(Bundle bundle)
 		{
-			TabLayoutResource = Resource.Layout.Tabbar;
+            TabLayoutResource = Resource.Layout.Tabbar;
 			ToolbarResource = Resource.Layout.Toolbar;
 
 			base.OnCreate(bundle);
@@ -27,10 +27,11 @@ namespace BTApplication.Droid
             var discoverability = new Intent(BluetoothAdapter.ActionRequestDiscoverable);
             discoverability.PutExtra(BluetoothAdapter.ExtraDiscoverableDuration, 0);
             StartActivity(discoverability);
+           // RequestPermissions();
 
             //Load application
             var app = new App(new Logic.BluetoothManager(receiver));
-			LoadApplication(app);
+            LoadApplication(app);
 		}
 
     }
