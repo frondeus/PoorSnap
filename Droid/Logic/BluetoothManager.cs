@@ -108,7 +108,10 @@ namespace BTApplication.Droid.Logic
 
 				_outputStream = connectSocket.OutputStream;
 				_inputStream = connectSocket.InputStream;
-				ListenToMessagesTask();
+
+			    var dev = connectSocket.RemoteDevice;
+                ConnectionHandler.OnConnected(new AndroidUser() { Name = dev.Name, BluetoothDevice = dev });
+                ListenToMessagesTask();
 
 				connectSocket.Dispose();
 				socket.Dispose();
