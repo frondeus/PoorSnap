@@ -111,16 +111,16 @@ namespace BTApplication.Droid.Logic
             {
                 var socket = _bluetoothAdapter.ListenUsingRfcommWithServiceRecord("serverConnection",
                     UUID.FromString("4edd00b2-c221-11e6-a4a6-cec0c932ce01"));
-                var connectSocket = socket.Accept();
+                _socket = socket.Accept();
 
-                if ((connectSocket == null) || !connectSocket.IsConnected) return;
+                if ((_socket == null) || !_socket.IsConnected) return;
 
-                _outputStream = connectSocket.OutputStream;
-                _inputStream = connectSocket.InputStream;
+                _outputStream = _socket.OutputStream;
+                _inputStream = _socket.InputStream;
 
                 Device.BeginInvokeOnMainThread(() =>
                 {
-                    var dev = connectSocket.RemoteDevice;
+                    var dev = _socket.RemoteDevice;
                     ConnectionHandler.OnConnected(new AndroidUser
                     {
                         Name = dev.Name,
@@ -158,7 +158,7 @@ namespace BTApplication.Droid.Logic
             {
                 while (true)
                 {
-                    if (!_inputStream.CanRead)
+                    if (!_socket.IsConnected)
                     {
                         Disconnect();
                         Device.BeginInvokeOnMainThread(() =>
