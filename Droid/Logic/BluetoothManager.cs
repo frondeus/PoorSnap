@@ -22,6 +22,7 @@ namespace BTApplication.Droid.Logic
 		public IConnectionHandler ConnectionHandler { get; set; }
 		private Stream _outputStream;
 		private Stream _inputStream;
+	    private BluetoothSocket _socket;
 
 		public BluetoothManager(DiscoveredDeviceReceiver receiver)
 		{
@@ -56,17 +57,18 @@ namespace BTApplication.Droid.Logic
 				return;
 			}
 
-			var socket = btDevice.CreateRfcommSocketToServiceRecord(UUID.FromString("4edd00b2-c221-11e6-a4a6-cec0c932ce01"));
-			socket.Connect();
+			_socket = btDevice.CreateRfcommSocketToServiceRecord(UUID.FromString("4edd00b2-c221-11e6-a4a6-cec0c932ce01"));
+			_socket.Connect();
 
 			ConnectionHandler.OnConnected(androidUser);
-			_outputStream = socket.OutputStream;
-			_inputStream = socket.InputStream;
+			_outputStream = _socket.OutputStream;
+			_inputStream = _socket.InputStream;
 		}
 
 		public void Disconnect()
 		{
-			throw new NotImplementedException();
+			_socket.Close();
+            _socket.Dispose();
 		}
 
 		public void SendMessage(Message message)

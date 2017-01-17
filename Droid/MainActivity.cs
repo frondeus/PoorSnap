@@ -1,4 +1,5 @@
-﻿using Android.App;
+﻿using Android;
+using Android.App;
 using Android.Content;
 using Android.Content.PM;
 using Android.OS;
@@ -27,7 +28,12 @@ namespace BTApplication.Droid
             var discoverability = new Intent(BluetoothAdapter.ActionRequestDiscoverable);
             discoverability.PutExtra(BluetoothAdapter.ExtraDiscoverableDuration, 0);
             StartActivity(discoverability);
-           // RequestPermissions();
+
+            RequestPermissions(new []
+            {
+                Manifest.Permission.AccessFineLocation,
+                Manifest.Permission.AccessCoarseLocation
+            }, 0);
 
             //Load application
             var app = new App(new Logic.BluetoothManager(receiver));
