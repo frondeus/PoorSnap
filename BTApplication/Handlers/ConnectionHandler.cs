@@ -30,7 +30,7 @@ namespace BTApplication.Handlers
 
 		}
 
-		public void OnDisconnected(User user)
+		public void OnDisconnected()
 		{
 			Console.WriteLine("Disconnected");
 		}

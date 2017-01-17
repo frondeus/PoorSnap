@@ -69,6 +69,10 @@ namespace BTApplication.Droid.Logic
 
         public void Disconnect()
         {
+            _inputStream.Close();
+            _inputStream.Dispose();
+            _outputStream.Close();
+            _outputStream.Dispose();
             _socket.Close();
             _socket.Dispose();
         }
@@ -154,8 +158,12 @@ namespace BTApplication.Droid.Logic
             {
                 while (true)
                 {
-                    if (!_inputStream.CanRead)
+                    if (!_socket.IsConnected || !_inputStream.CanRead)
+                    {
+                        Disconnect();
+                        ConnectionHandler.OnDisconnected();
                         return;
+                    }
 
                     var incomingBytes = new byte[1024];
                     _inputStream.Read(incomingBytes, 0, incomingBytes.Length);

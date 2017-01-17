@@ -7,6 +7,6 @@ namespace BTApplication
 	{
 		void OnAvailableConnections(IEnumerable<Models.User> users);
 		void OnConnected(Models.User user);
-		void OnDisconnected(Models.User user);
+		void OnDisconnected();
     }
 }
