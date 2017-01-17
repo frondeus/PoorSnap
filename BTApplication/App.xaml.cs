@@ -5,14 +5,10 @@ namespace BTApplication
 {
 	public partial class App : Application
 	{
-		public App(IBluetoothManager bluetoothManager = null)
+		public App(IBluetoothManager bluetoothManager)
 		{
-			bluetoothManager = new Fake.BluetoothManager();
-
 			var connectionHandler = new ConnectionHandler();
-			bluetoothManager = new Fake.BluetoothManager();
 			bluetoothManager.ConnectionHandler = connectionHandler;
-
 			var connectionPage = new ConnectionPage(bluetoothManager);
 			var mainPage = new NavigationPage(connectionPage);
 
