@@ -28,7 +28,6 @@ namespace BTApplication.Droid.Logic
             _outputStream = null;
             _inputStream = null;
 
-            ListenToMessagesTask();
             ListenAsServerTask();
         }
 
@@ -64,6 +63,8 @@ namespace BTApplication.Droid.Logic
 
             _outputStream = _socket.OutputStream;
             _inputStream = _socket.InputStream;
+
+            ListenToMessagesTask();
         }
 
         public void Disconnect()
@@ -122,6 +123,7 @@ namespace BTApplication.Droid.Logic
                         BluetoothDevice = dev
                     });
                 });
+                ListenToMessagesTask();
             });
         }
 
