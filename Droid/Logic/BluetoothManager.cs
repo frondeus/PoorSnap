@@ -112,9 +112,6 @@ namespace BTApplication.Droid.Logic
 			    var dev = connectSocket.RemoteDevice;
                 ConnectionHandler.OnConnected(new AndroidUser() { Name = dev.Name, BluetoothDevice = dev });
                 ListenToMessagesTask();
-
-				connectSocket.Dispose();
-				socket.Dispose();
 			});
 		}
 
