@@ -29,11 +29,14 @@ namespace BTApplication.Droid
             discoverability.PutExtra(BluetoothAdapter.ExtraDiscoverableDuration, 0);
             StartActivity(discoverability);
 
-            RequestPermissions(new []
-            {
-                Manifest.Permission.AccessFineLocation,
-                Manifest.Permission.AccessCoarseLocation
-            }, 0);
+            if(int.Parse(Build.VERSION.Sdk) > 22)
+		    {
+                RequestPermissions(new[]
+                {
+                    Manifest.Permission.AccessFineLocation,
+                    Manifest.Permission.AccessCoarseLocation
+                }, 0);
+            }
 
             //Load application
             var app = new App(new Logic.BluetoothManager(receiver));
