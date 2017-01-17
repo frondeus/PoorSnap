@@ -158,10 +158,13 @@ namespace BTApplication.Droid.Logic
             {
                 while (true)
                 {
-                    if (!_socket.IsConnected || !_inputStream.CanRead)
+                    if (!_inputStream.CanRead)
                     {
                         Disconnect();
-                        ConnectionHandler.OnDisconnected();
+                        Device.BeginInvokeOnMainThread(() =>
+                        {
+                            ConnectionHandler.OnDisconnected();
+                        });
                         return;
                     }
 

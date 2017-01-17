@@ -57,7 +57,7 @@ namespace BTApplication.Fake
 			await Task.Delay(500);
 
 			timer = null;
-			ConnectionHandler.OnDisconnected(currentUser);
+			ConnectionHandler.OnDisconnected();
 		}
 
 		public async void Scan()
