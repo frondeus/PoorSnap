@@ -7,15 +7,8 @@ namespace BTApplication
 	{
 		public App(IBluetoothManager bluetoothManager)
 		{
-			//bluetoothManager = new Fake.BluetoothManager();
-
 			var connectionHandler = new ConnectionHandler();
-<<<<<<< HEAD
-=======
-			//bluetoothManager = new Fake.BluetoothManager();
->>>>>>> Kleopas
 			bluetoothManager.ConnectionHandler = connectionHandler;
-
 			var connectionPage = new ConnectionPage(bluetoothManager);
 			var mainPage = new NavigationPage(connectionPage);
 
