@@ -70,10 +70,11 @@ namespace BTApplication.Droid.Logic
         public void Disconnect()
         {
             _inputStream.Close();
-            _inputStream.Dispose();
+            _inputStream = null;
             _outputStream.Close();
-            _outputStream.Dispose();
+            _outputStream = null;
             _socket.Close();
+            _socket = null;
         }
 
         public void SendMessage(Message message)
@@ -159,16 +160,25 @@ namespace BTApplication.Droid.Logic
                 {
                     if (!_socket.IsConnected)
                     {
-                        Disconnect();
-                        Device.BeginInvokeOnMainThread(() =>
-                        {
-                            ConnectionHandler.OnDisconnected();
-                        });
-                        return;
+                        ConnectionHandler.OnDisconnected();
+                        break;
                     }
+                }
+            });
 
+            Task.Factory.StartNew(() =>
+            {
+                while (true)
+                {
                     var incomingBytes = new byte[1024];
-                    _inputStream.Read(incomingBytes, 0, incomingBytes.Length);
+                    try
+                    {
+                        _inputStream.Read(incomingBytes, 0, incomingBytes.Length);
+                    }
+                    catch (Java.IO.IOException)
+                    {
+                        break;
+                    }
                     var decodedMessage = Encoding.UTF8.GetString(incomingBytes);
 
                     if (string.IsNullOrEmpty(decodedMessage)) continue;
