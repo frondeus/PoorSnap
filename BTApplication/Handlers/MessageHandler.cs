@@ -31,6 +31,7 @@ namespace BTApplication.Handlers
 		public void OnMessage(Message message)
 		{
             _chatPage.messages.Add(message);
+            _chatPage.ScrollToLast();
 		}
 	}
 }

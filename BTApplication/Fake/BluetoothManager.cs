@@ -27,14 +27,15 @@ namespace BTApplication.Fake
 				{
 					Console.WriteLine(string.Format("Username: {0}", currentUser.Name));
 
-					var fakeMessage = new Message
-					{
-						TextContent = string.Format("Fake text message {0}", i),
-						Name = user.Name
-					};
+                    var fakeMessage = new Message
+                    {
+                        TextContent = string.Format("Fake text message {0}", i),
+                        Name = user.Name,
+                        BgColor = "Green"
+
+                    };
 
 					i++;
-
 					MessageHandler.OnMessage(fakeMessage);
 				});
 			};
@@ -89,7 +90,8 @@ namespace BTApplication.Fake
 			var fakeMessage = new Message
 			{
 				TextContent = string.Format("Echo message: {0}", message.TextContent),
-				Name = currentUser.Name
+				Name = currentUser.Name,
+                BgColor = "Green"
 
 			};
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using BTApplication.Models;
 using Xamarin.Forms;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace BTApplication
 {
@@ -23,7 +24,8 @@ namespace BTApplication
 		public void SetMessages(ObservableCollection<Message> messages)
 		{
 			Output.ItemsSource = messages;
-		}
+            
+        }
 
 		void Handle_Clicked(object sender, EventArgs e)
 		{
@@ -33,15 +35,24 @@ namespace BTApplication
                 messages.Add(new Message
                 {
                     Name = "Me",
-                    TextContent = text
+                    TextContent = text,
+                    BgColor = "Purple"
+                    
                 });
 				_bluetoothManager.SendMessage(new Message
 				{
 					Name = "Me",
-					TextContent = text
+					TextContent = text,
+                    BgColor = "Blue"
 				});
 			}
-			Input.Text = "";
-		}
+            Input.Text = "";
+            ScrollToLast();
+        }
+        public void ScrollToLast()
+        {
+            var v = Output.ItemsSource.Cast<object>().LastOrDefault();
+            Output.ScrollTo(v, ScrollToPosition.End, true);
+        }
 	}
 }
