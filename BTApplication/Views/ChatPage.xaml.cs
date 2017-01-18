@@ -10,13 +10,15 @@ namespace BTApplication
 	{
 		private IBluetoothManager _bluetoothManager;
 		private User _user;
+        public ObservableCollection<Message> messages { get; set;}
 
-		public ChatPage(IBluetoothManager bluetoothManager, User user)
+        public ChatPage(IBluetoothManager bluetoothManager, User user)
 		{
 			_user = user;
 			_bluetoothManager = bluetoothManager;
 			InitializeComponent();
-		}
+            messages = new ObservableCollection<Message>();
+        }
 
 		public void SetMessages(ObservableCollection<Message> messages)
 		{
@@ -28,6 +30,11 @@ namespace BTApplication
 			string text = Input.Text;
 			if (text.Length != 0)
 			{
+                messages.Add(new Message
+                {
+                    Name = "Me",
+                    TextContent = text
+                });
 				_bluetoothManager.SendMessage(new Message
 				{
 					Name = "Me",
