@@ -74,7 +74,6 @@ namespace BTApplication.Droid.Logic
             _outputStream.Close();
             _outputStream.Dispose();
             _socket.Close();
-            _socket.Dispose();
         }
 
         public void SendMessage(Message message)
