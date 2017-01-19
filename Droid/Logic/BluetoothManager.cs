@@ -9,6 +9,7 @@ using BTApplication.Droid.Models;
 using BTApplication.Models;
 using Java.Util;
 using Xamarin.Forms;
+using Newtonsoft.Json;
 
 namespace BTApplication.Droid.Logic
 {
@@ -79,7 +80,8 @@ namespace BTApplication.Droid.Logic
 
         public void SendMessage(Message message)
         {
-            var encodedMessage = Encoding.UTF8.GetBytes(message.TextContent);
+            var json = JsonConvert.SerializeObject(message);
+            var encodedMessage = Encoding.UTF8.GetBytes(json);
             _outputStream.Write(encodedMessage, 0, encodedMessage.Length);
             _outputStream.Flush();
         }
@@ -179,14 +181,15 @@ namespace BTApplication.Droid.Logic
                     {
                         break;
                     }
-                    var decodedMessage = Encoding.UTF8.GetString(incomingBytes);
+                    Message decodedMessage = JsonConvert.DeserializeObject<Message>(Encoding.UTF8.GetString(incomingBytes));
 
-                    if (string.IsNullOrEmpty(decodedMessage)) continue;
+
+                    if (string.IsNullOrEmpty(decodedMessage.TextContent)) continue;
 
                     Device.BeginInvokeOnMainThread(() =>
                     {
-                        Console.WriteLine("Incoming message: " + decodedMessage);
-                        MessageHandler.OnMessage(new Message {TextContent = decodedMessage});
+                        Console.WriteLine("Incoming message: " + decodedMessage.TextContent);
+                        MessageHandler.OnMessage(decodedMessage);
                     });
                 }
             });

@@ -41,8 +41,8 @@ namespace BTApplication
                 });
 				_bluetoothManager.SendMessage(new Message
 				{
-					Name = "Me",
-					TextContent = text,
+					Name = _user.Name,
+                    TextContent = text,
                     BgColor = "Blue"
 				});
 			}
