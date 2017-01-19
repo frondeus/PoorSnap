@@ -28,7 +28,6 @@ namespace BTApplication.Droid.Logic
 
             _outputStream = null;
             _inputStream = null;
-
             ListenAsServerTask();
         }
 
@@ -47,6 +46,7 @@ namespace BTApplication.Droid.Logic
             var androidUser = (AndroidUser) user;
             var btDevice = androidUser.BluetoothDevice;
             var bondState = btDevice.BondState;
+            androidUser.Name = _bluetoothAdapter.Name;
 
             if (!bondState.Equals(Bond.Bonded))
                 bondState = await BondAsync(btDevice);
@@ -70,8 +70,12 @@ namespace BTApplication.Droid.Logic
 
         public void Disconnect()
         {
+            const string disconnectedMessage = "disconnected...";
+            _outputStream.Write(Encoding.UTF8.GetBytes(disconnectedMessage), 0, disconnectedMessage.Length);
+            _inputStream.Flush();
             _inputStream.Close();
             _inputStream = null;
+            _outputStream.Flush();
             _outputStream.Close();
             _outputStream = null;
             _socket.Close();
@@ -122,11 +126,10 @@ namespace BTApplication.Droid.Logic
 
                 Device.BeginInvokeOnMainThread(() =>
                 {
-                    var dev = _socket.RemoteDevice;
                     ConnectionHandler.OnConnected(new AndroidUser
                     {
-                        Name = dev.Name,
-                        BluetoothDevice = dev
+                        Name = _bluetoothAdapter.Name,
+                        BluetoothDevice = _socket.RemoteDevice
                     });
                 });
                 ListenToMessagesTask();
@@ -165,31 +168,23 @@ namespace BTApplication.Droid.Logic
                         ConnectionHandler.OnDisconnected();
                         break;
                     }
-                }
-            });
 
-            Task.Factory.StartNew(() =>
-            {
-                while (true)
-                {
                     var incomingBytes = new byte[1024];
-                    try
+                    _inputStream.Read(incomingBytes, 0, incomingBytes.Length);
+                    var decodedMessage = Encoding.UTF8.GetString(incomingBytes);
+                    if (decodedMessage.Equals("disconnected..."))
                     {
-                        _inputStream.Read(incomingBytes, 0, incomingBytes.Length);
+                        Disconnect();
+                        ConnectionHandler.OnDisconnected();
                     }
-                    catch (Java.IO.IOException)
-                    {
-                        break;
-                    }
-                    Message decodedMessage = JsonConvert.DeserializeObject<Message>(Encoding.UTF8.GetString(incomingBytes));
 
-
-                    if (string.IsNullOrEmpty(decodedMessage.TextContent)) continue;
+                    var castedMessage = JsonConvert.DeserializeObject<Message>(decodedMessage);
+                    if (string.IsNullOrEmpty(castedMessage.TextContent)) continue;
 
                     Device.BeginInvokeOnMainThread(() =>
                     {
-                        Console.WriteLine("Incoming message: " + decodedMessage.TextContent);
-                        MessageHandler.OnMessage(decodedMessage);
+                        Console.WriteLine("Incoming message: " + castedMessage.TextContent);
+                        MessageHandler.OnMessage(castedMessage);
                     });
                 }
             });
