@@ -70,8 +70,7 @@ namespace BTApplication.Droid.Logic
 
         public void Disconnect()
         {
-            const string disconnectedMessage = "disconnected...";
-            _outputStream.Write(Encoding.UTF8.GetBytes(disconnectedMessage), 0, disconnectedMessage.Length);
+            ConnectionHandler.OnDisconnected(); 
             _inputStream.Flush();
             _inputStream.Close();
             _inputStream = null;
@@ -172,12 +171,6 @@ namespace BTApplication.Droid.Logic
                     var incomingBytes = new byte[1024];
                     _inputStream.Read(incomingBytes, 0, incomingBytes.Length);
                     var decodedMessage = Encoding.UTF8.GetString(incomingBytes);
-                    if (decodedMessage.Equals("disconnected..."))
-                    {
-                        Disconnect();
-                        ConnectionHandler.OnDisconnected();
-                    }
-
                     var castedMessage = JsonConvert.DeserializeObject<Message>(decodedMessage);
                     if (string.IsNullOrEmpty(castedMessage.TextContent)) continue;
 
