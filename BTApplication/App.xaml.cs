@@ -7,7 +7,7 @@ namespace BTApplication
 	{
 		public App(IBluetoothManager bluetoothManager)
 		{
-            bluetoothManager = new Fake.BluetoothManager();
+            //bluetoothManager = new Fake.BluetoothManager();
 			var connectionHandler = new ConnectionHandler();
 			bluetoothManager.ConnectionHandler = connectionHandler;
 			var connectionPage = new ConnectionPage(bluetoothManager);
