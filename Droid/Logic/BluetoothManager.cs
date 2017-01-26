@@ -1,158 +1,188 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Text;
 using System.Threading.Tasks;
-using BTApplication.Models;
 using Android.Bluetooth;
 using BTApplication.Droid.Logic.Receivers;
 using BTApplication.Droid.Models;
+using BTApplication.Models;
 using Java.Util;
-using Android.Media;
-using Console = System.Console;
 using Xamarin.Forms;
-using Encoding = System.Text.Encoding;
-using Stream = System.IO.Stream;
+using Newtonsoft.Json;
 
 namespace BTApplication.Droid.Logic
 {
-	internal class BluetoothManager : IBluetoothManager
-	{
-		private readonly BluetoothAdapter _bluetoothAdapter;
-		private readonly DiscoveredDeviceReceiver _receiver;
-		public IMessageHandler MessageHandler { get; set; }
-		public IConnectionHandler ConnectionHandler { get; set; }
-		private Stream _outputStream;
-		private Stream _inputStream;
+    internal class BluetoothManager : IBluetoothManager
+    {
+        private readonly BluetoothAdapter _bluetoothAdapter;
+        private readonly DiscoveredDeviceReceiver _receiver;
+        private Stream _inputStream;
+        private Stream _outputStream;
+        private BluetoothSocket _socket;
 
-		public BluetoothManager(DiscoveredDeviceReceiver receiver)
-		{
-			_bluetoothAdapter = BluetoothAdapter.DefaultAdapter;
-			_receiver = receiver;
+        public BluetoothManager(DiscoveredDeviceReceiver receiver)
+        {
+            _bluetoothAdapter = BluetoothAdapter.DefaultAdapter;
+            _receiver = receiver;
 
-			_outputStream = null;
-			_inputStream = null;
+            _outputStream = null;
+            _inputStream = null;
+            ListenAsServerTask();
+        }
 
-			ListenAsServerTask();
-		}
+        public IMessageHandler MessageHandler { get; set; }
+        public IConnectionHandler ConnectionHandler { get; set; }
 
-		public async void Scan()
-		{
-			_bluetoothAdapter.CancelDiscovery();
-			var foundDevices = await ScanAsync();
-			ConnectionHandler.OnAvailableConnections(foundDevices);
-		}
+        public async void Scan()
+        {
+            _bluetoothAdapter.CancelDiscovery();
+            var foundDevices = await ScanAsync();
+            ConnectionHandler.OnAvailableConnections(foundDevices);
+        }
 
-		public async void Connect(User user)
-		{
-			var androidUser = (AndroidUser)user;
-			var btDevice = androidUser.BluetoothDevice;
-			var bondState = btDevice.BondState;
+        public async void Connect(User user)
+        {
+            var androidUser = (AndroidUser) user;
+            var btDevice = androidUser.BluetoothDevice;
+            var bondState = btDevice.BondState;
+            androidUser.Name = _bluetoothAdapter.Name;
 
-			if (!bondState.Equals(Bond.Bonded))
-				bondState = await BondAsync(btDevice);
+            if (!bondState.Equals(Bond.Bonded))
+                bondState = await BondAsync(btDevice);
 
-			if (bondState.Equals(Bond.None))
-			{
-				Console.WriteLine("Nie uda³o siê nawi¹zaæ po³¹czenia - urz¹dzenia nie zosta³y powi¹zane");
-				return;
-			}
+            if (bondState.Equals(Bond.None))
+            {
+                Console.WriteLine("Nie uda³o siê nawi¹zaæ po³¹czenia - urz¹dzenia nie zosta³y powi¹zane");
+                return;
+            }
 
-			var socket = btDevice.CreateRfcommSocketToServiceRecord(UUID.FromString("4edd00b2-c221-11e6-a4a6-cec0c932ce01"));
-			socket.Connect();
+            _socket = btDevice.CreateRfcommSocketToServiceRecord(UUID.FromString("4edd00b2-c221-11e6-a4a6-cec0c932ce01"));
+            _socket.Connect();
 
-			ConnectionHandler.OnConnected(androidUser);
-			_outputStream = socket.OutputStream;
-			_inputStream = socket.InputStream;
-		}
+            Device.BeginInvokeOnMainThread(() => { ConnectionHandler.OnConnected(androidUser); });
 
-		public void Disconnect()
-		{
-			throw new NotImplementedException();
-		}
+            _outputStream = _socket.OutputStream;
+            _inputStream = _socket.InputStream;
 
-		public void SendMessage(Message message)
-		{
-		    var encodedMessage = Encoding.UTF8.GetBytes(message.TextContent);
-            _outputStream.Write(encodedMessage, 0 , encodedMessage.Length);
+            ListenToMessagesTask();
+        }
+
+        public void Disconnect()
+        {
+            ConnectionHandler.OnDisconnected(); 
+            _inputStream.Flush();
+            _inputStream.Close();
+            _inputStream = null;
             _outputStream.Flush();
-		}
+            _outputStream.Close();
+            _outputStream = null;
+            _socket.Close();
+            _socket = null;
+        }
 
-		#region scan
+        public void SendMessage(Message message)
+        {
+            var json = JsonConvert.SerializeObject(message);
+            var encodedMessage = Encoding.UTF8.GetBytes(json);
+            _outputStream.Write(encodedMessage, 0, encodedMessage.Length);
+            _outputStream.Flush();
+        }
 
-		private Task<List<AndroidUser>> ScanAsync()
-		{
-			return Task.Factory.StartNew(() =>
-			{
-				_bluetoothAdapter.StartDiscovery();
-				while (_bluetoothAdapter.IsDiscovering) { }
+        #region scan
 
-				var foundDevices = _receiver.GetFoundDevices();
-				_receiver.FlushList();
-				return foundDevices;
-			});
-		}
+        private Task<List<AndroidUser>> ScanAsync()
+        {
+            return Task.Factory.StartNew(() =>
+            {
+                _bluetoothAdapter.StartDiscovery();
+                while (_bluetoothAdapter.IsDiscovering)
+                {
+                }
 
-		#endregion
+                var foundDevices = _receiver.GetFoundDevices();
+                _receiver.FlushList();
+                return foundDevices;
+            });
+        }
 
-		#region listenAsServer
+        #endregion
 
-		private Task ListenAsServerTask()
-		{
-			return Task.Factory.StartNew(() =>
-			{
-				var socket = _bluetoothAdapter.ListenUsingRfcommWithServiceRecord("serverConnection", UUID.FromString("4edd00b2-c221-11e6-a4a6-cec0c932ce01"));
-				var connectSocket = socket.Accept();
+        #region listenAsServer
 
-				if (connectSocket == null || !connectSocket.IsConnected) return;
+        private void ListenAsServerTask()
+        {
+            Task.Factory.StartNew(() =>
+            {
+                var socket = _bluetoothAdapter.ListenUsingRfcommWithServiceRecord("serverConnection",
+                    UUID.FromString("4edd00b2-c221-11e6-a4a6-cec0c932ce01"));
+                _socket = socket.Accept();
 
-				_outputStream = connectSocket.OutputStream;
-				_inputStream = connectSocket.InputStream;
-				ListenToMessagesTask();
+                if ((_socket == null) || !_socket.IsConnected) return;
 
-				connectSocket.Dispose();
-				socket.Dispose();
-			});
-		}
+                _outputStream = _socket.OutputStream;
+                _inputStream = _socket.InputStream;
 
-		#endregion
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    ConnectionHandler.OnConnected(new AndroidUser
+                    {
+                        Name = _bluetoothAdapter.Name,
+                        BluetoothDevice = _socket.RemoteDevice
+                    });
+                });
+                ListenToMessagesTask();
+            });
+        }
 
-		#region bond
+        #endregion
 
-		private static Task<Bond> BondAsync(BluetoothDevice device)
-		{
-			return Task.Factory.StartNew(() =>
-			{
-				device.CreateBond();
-				while (device.BondState.Equals(Bond.Bonding)) { }
+        #region bond
 
-				return device.BondState;
-			});
-		}
+        private static Task<Bond> BondAsync(BluetoothDevice device)
+        {
+            return Task.Factory.StartNew(() =>
+            {
+                device.CreateBond();
+                while (device.BondState.Equals(Bond.Bonding))
+                {
+                }
 
-		#endregion
+                return device.BondState;
+            });
+        }
 
-		#region listenToMessages
+        #endregion
 
-		private Task ListenToMessagesTask()
-		{
-			return Task.Factory.StartNew(() =>
-			{
-				while (true)
-				{
-				    var incomingBytes = new byte[1024];
-					_inputStream.Read(incomingBytes, 0, incomingBytes.Length);
-				    var decodedMessage = Encoding.UTF8.GetString(incomingBytes);
+        #region listenToMessages
 
-					if (string.IsNullOrEmpty(decodedMessage)) continue;
+        private void ListenToMessagesTask()
+        {
+            Task.Factory.StartNew(() =>
+            {
+                while (true)
+                {
+                    if (!_socket.IsConnected)
+                    {
+                        ConnectionHandler.OnDisconnected();
+                        break;
+                    }
 
-					Device.BeginInvokeOnMainThread(() =>
-					{
-						Console.WriteLine("Incoming message: " + decodedMessage);
-						MessageHandler.OnMessage(new Message() { TextContent = decodedMessage });
-					});
-				}
-			});
-		}
+                    var incomingBytes = new byte[1024];
+                    _inputStream.Read(incomingBytes, 0, incomingBytes.Length);
+                    var decodedMessage = Encoding.UTF8.GetString(incomingBytes);
+                    var castedMessage = JsonConvert.DeserializeObject<Message>(decodedMessage);
+                    if (string.IsNullOrEmpty(castedMessage.TextContent)) continue;
 
-		#endregion
-	}
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        Console.WriteLine("Incoming message: " + castedMessage.TextContent);
+                        MessageHandler.OnMessage(castedMessage);
+                    });
+                }
+            });
+        }
+
+        #endregion
+    }
 }

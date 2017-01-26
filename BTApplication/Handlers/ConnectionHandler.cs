@@ -21,7 +21,7 @@ namespace BTApplication.Handlers
 		{
 			Console.WriteLine("Connected");
 			chatPage = new ChatPage(Page.getBM(), user);
-			var messageHandler = new MessageHandler();
+            var messageHandler = new MessageHandler();
 			Page.getBM().MessageHandler = messageHandler;
 			messageHandler.ChatPage = chatPage;
 			messageHandler.Nav = Nav;
@@ -30,9 +30,14 @@ namespace BTApplication.Handlers
 
 		}
 
-		public void OnDisconnected(User user)
+		public void OnDisconnected()
 		{
 			Console.WriteLine("Disconnected");
-		}
+            Message mes = new Message();
+            mes.Name = "System";
+            mes.TextContent = "Użytkownik opuścił chat!";
+            mes.BgColor = "Red";
+            Page.getBM().SendMessage(mes);
+        }
 	}
 }

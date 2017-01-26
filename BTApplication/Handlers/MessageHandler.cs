@@ -20,17 +20,18 @@ namespace BTApplication.Handlers
 			set
 			{
 				_chatPage = value;
-				_chatPage.SetMessages(messages);
+				_chatPage.SetMessages(_chatPage.messages);
 			}
 		}
 
 		public NavigationPage Nav { get; set; }
 
-		private ObservableCollection<Message> messages = new ObservableCollection<Message>();
+		
 
 		public void OnMessage(Message message)
 		{
-			messages.Add(message);
+            _chatPage.messages.Add(message);
+            _chatPage.ScrollToLast();
 		}
 	}
 }

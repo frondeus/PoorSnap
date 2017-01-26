@@ -1,4 +1,5 @@
-﻿using Android.App;
+﻿using Android;
+using Android.App;
 using Android.Content;
 using Android.Content.PM;
 using Android.OS;
@@ -12,7 +13,7 @@ namespace BTApplication.Droid
 	{
 		protected override void OnCreate(Bundle bundle)
 		{
-			TabLayoutResource = Resource.Layout.Tabbar;
+            TabLayoutResource = Resource.Layout.Tabbar;
 			ToolbarResource = Resource.Layout.Toolbar;
 
 			base.OnCreate(bundle);
@@ -28,9 +29,18 @@ namespace BTApplication.Droid
             discoverability.PutExtra(BluetoothAdapter.ExtraDiscoverableDuration, 0);
             StartActivity(discoverability);
 
+            if(int.Parse(Build.VERSION.Sdk) > 22)
+		    {
+                RequestPermissions(new[]
+                {
+                    Manifest.Permission.AccessFineLocation,
+                    Manifest.Permission.AccessCoarseLocation
+                }, 0);
+            }
+
             //Load application
             var app = new App(new Logic.BluetoothManager(receiver));
-			LoadApplication(app);
+            LoadApplication(app);
 		}
 
     }
